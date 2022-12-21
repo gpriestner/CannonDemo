@@ -3,7 +3,7 @@ console.log("Working . . .");
 class Game {
   constructor() {
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0, 0, 0);
+    this.scene.background = new THREE.Color(0.5, 0.5, 0.5);
     this.camera = new THREE.PerspectiveCamera(
       40,
       window.innerWidth / window.innerHeight,
@@ -30,7 +30,7 @@ class Game {
 
   addBody(sphere = true) {
     const material = new CANNON.Material();
-    const body = new CANNON.Body({ mass: 5, material: material });
+    const body = new CANNON.Body({ mass: 5, material });
     if (sphere) {
       body.addShape(this.shapes.sphere);
     } else {
@@ -45,7 +45,7 @@ class Game {
     const material_ground = new CANNON.ContactMaterial(
       this.groundMaterial,
       material,
-      { friction: 0.0, restitution: sphere ? 0.9 : 0.3 }
+      { friction: 0.0005, restitution: sphere ? 0.9 : 0.3 }
     );
 
     this.world.addContactMaterial(material_ground);
@@ -74,6 +74,7 @@ class Game {
     this.shapes = {};
     this.shapes.sphere = new CANNON.Sphere(0.5);
     this.shapes.box = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5));
+    this.shapes.material = new THREE.MeshNormalMaterial();
 
     this.groundMaterial = groundMaterial;
 
